@@ -61,8 +61,13 @@ You can play around with the bot yourself [here](link to new bot)
 
 # Credits
 [ybenhayun](https://github.com/ybenhayun) - [Original bot](https://ybenhayun.github.io/wordlebot/) author
-[Alex Selby](https://github.com/alex1770) - [Score calculator](https://github.com/alex1770/wordle) author
-[Ryan4598](https://github.com/Ryan4598) - [Polygonle implementation](https://github.com/ybenhayun/wordlebot/pull/8)
-[Brian Xu](https://github.com/brian-xu) - [Idea to show score of last guess on the board](https://github.com/ybenhayun/wordlebot/commit/12d15461239dab0eeca73965481b5e5146f75b15)
-[Qianlang Chen](https://github.com/the-chenergy) - [Idea to use URL parameters](https://github.com/the-chenergy/wordlebot/tree/co-wordle-lists)
-[Rangsk](https://linktr.ee/rangsk) - [Known answer field implementation](https://github.com/dclamage/wordlebot/tree/autocolor), inspiration and testing
+
+[Alex Selby](https://github.com/alex1770) - [Score calculator](https://github.com/alex1770/wordle) author 
+
+[Ryan4598](https://github.com/Ryan4598) - [Polygonle implementation](https://github.com/ybenhayun/wordlebot/pull/8) 
+
+[Brian Xu](https://github.com/brian-xu) - [Idea to show score of last guess on the board](https://github.com/ybenhayun/wordlebot/commit/12d15461239dab0eeca73965481b5e5146f75b15) 
+
+[Qianlang Chen](https://github.com/the-chenergy) - [Idea to use URL parameters](https://github.com/the-chenergy/wordlebot/tree/co-wordle-lists) 
+
+[Rangsk](https://linktr.ee/rangsk) - [Known answer field implementation](https://github.com/dclamage/wordlebot/tree/autocolor), inspiration and testing 
