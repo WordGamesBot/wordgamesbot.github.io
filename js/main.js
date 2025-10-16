@@ -309,10 +309,6 @@ function update() {
 				addendum = "Your score for the guess " + guess_stats[0].word + " was " + getDataFor(guess_stats[0], old_list.unique) + ".<br>";
 				if (guess_stats[0].wrong_answers && (guess_stats[0].wrong_answers.length > 0)) {
 					addendum += "Might lose on: " + guess_stats[0].wrong_answers.join(", ") +  ".<br>";
-					// for (let i = 0; i < guess_stats[0].wrong_answers.length; i++) {
-						// addendum += (i ? ", ": "") + guess_stats[0].wrong_answers[i];
-					// }
-					// addendum += ".<br>";
 				}
 			}
 		}
@@ -460,55 +456,8 @@ function polygonleFilter(sorted_guess_list) {
 			new_list.push(this_word);
 		}
 	}
-	// let pattern = [];
-	// let pattern_matches = [];
-	// let index = 0;
-	// for (const polygonle_tile of document.getElementById("polygonle-grid")?.children) {
-		// pattern[index] = polygonle_tile.classList[1];
-		// if (pattern_matches[polygonle_tile.classList[1]] !== undefined) {
-			// pattern_matches[polygonle_tile.classList[1]].push(index);
-		// } else {
-			// pattern_matches[polygonle_tile.classList[1]] = [index];
-		// }
-		// index++;
-	// }
-	// for (let i = 0; i < sorted_guess_list.length; i++) {
-		// let this_word = sorted_guess_list[i];
-		// let matched = true;
-		// for (let j = 0; j < this_word.length; j++) {
-			// let pattern_key = pattern[j];
-			// let pattern_val = pattern_matches[pattern_key];
-			// for (let k = 0; k < pattern_val.length; k++) {
-				// if (this_word[j] != this_word[pattern_val[k]]) {
-					// matched = false;
-					// break;
-				// }
-			// }
-			// if (!matched) break;
-			// let current_char = this_word[j];
-			// for (let k = 0; k < this_word.length; k++) {
-				// if (!pattern_val.includes(k) && j != k) {
-					// if (current_char == this_word[k]) {
-						// matched = false;
-						// break;
-					// }
-				// }
-			// }
-		// }
-		// if (matched) {
-			// new_list.push(this_word);
-		// }
-	// }
 	return new_list;
 }
-
-// function twoAnswersLeft(answers) {
-	// if (bot.getCount() == 1) {
-		// return answers.length <= 2;
-	// }
-
-	// return uniqueWordsFrom(answers).length <= 2;
-// }
 
 function getUnfoundAnswers(answer_lists) {
 	unfound_answers = [];
@@ -620,10 +569,6 @@ function getDataFor(guess, answers) {
 		return "≥" + decimalToPercent(1-(guess.wrong_answers.length/answers.length)) + " solve rate";
 	}
 
-	// if (!guessesMadeSoFar(0)) {
-		// return num_guesses + " guesses";
-	// }
-
 	return ((guess.average <= (answers.length * 2 + (!answers.includes(guess.word))))? "": "≤") + (guess.average/answers.length).toFixed(3) + " guesses left";
 }
 
@@ -691,7 +636,6 @@ function updateHeaders(lists) {
 	let unlikely_html = unlikely_length + " unlikely possibilit" + pluralOrSingle(unlikely_length, "y", "ies");
 	let likely_span, unlikely_span;
 
-	// if (guessesMadeSoFar() > 0) {
 	if (likely_length < 4000) {
 		// creates a dropdown of all possible words left
 		// dropdown is viewable if you click on the section that lists
@@ -862,11 +806,6 @@ function spotleGuesses() {
 
 	return count;
 }
-
-// checks if we're playing on hard mode or normal mode
-// function getDifficulty() {
-	// return document.querySelector(`input[type="radio"][name="mode-switcher"]:checked`).id;
-// }
 
 function botIsOn() {
 	return document.getElementById("results");
@@ -1489,8 +1428,6 @@ function calculateGuessList(answers, guesses, best_words, guess_count = guessesM
 		});
 		best_words[i].results = results;
 
-		// if (bot.isFor(ANTI)) best_words[i].wrong = 1 - best_words[i].results.length/100; //uncomment to for longest path antiwordle
-
 		if (results["w"].length == 0) {
 			can_finish++;
 		}
@@ -1556,9 +1493,7 @@ function countResults(best, answers, guesses, results, attempt, differences, gue
 		Object.keys(remaining).forEach(function(key) {
 			countResults(best_words[0], remaining[key], new_guesses, results, attempt+1, key, guess_count);
 		});
-	// }
 	} else {
-	// if (guess_count + attempt >= bot.guessesAllowed()-1) {
 		results["w"] = combineLists(results["w"], answers);
 	}
 
@@ -1566,7 +1501,6 @@ function countResults(best, answers, guesses, results, attempt, differences, gue
 }
 
 function addToResults(results, answers, attempt, current_answer, max_guesses) {
-	// if (answers.length == 0) {
 	if (isEmpty(answers)) {
 		addToSpot(results, current_answer, attempt);
 
@@ -1607,8 +1541,6 @@ function calculateAverageGuesses(current_word, results) {
 
 /* FILTER FUNCTIONS */
 function filterList(list, letters = false, reduced_filter = false, split = false, ultra_mode = true, guess_count = guessesMadeSoFar()) {
-	// if (guess_count == 0) return list;
-
 	if (letters) {
 		if (ultra_mode) {
 			return createFilteredList(list, letters.word, letters.colors, reduced_filter);
@@ -1798,12 +1730,9 @@ function sortList(list, alphabet) {
 	for (let i = 0; i < newranks.length; i++) {
 		checked = [];
 		for (let j = 0; j < word_length; j++) {
-			// if (checked[i + " " + newranks[i].word.charAt(j)] == true) continue;  //no extra credit to letters with doubles
 			if (checked[newranks[i].word.charAt(j)] == true) continue;  //no extra credit to letters with doubles
-			// if (alphabet[newranks[i].word.charAt(j)][word_length] == alphabet[newranks[i].word.charAt(j)][j]) continue;
 
 			newranks[i].average += alphabet[newranks[i].word.charAt(j)][word_length] + alphabet[newranks[i].word.charAt(j)][j];
-			// checked[checked[i + " " + newranks[i].word.charAt(j)] = true;
 			checked[newranks[i].word.charAt(j)] = true;
 		}
 		newranks[i].average = 1/newranks[i].average;
