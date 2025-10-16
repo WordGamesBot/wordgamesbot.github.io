@@ -570,8 +570,11 @@ function createGuessInput(div) {
 function setInputAttributes(input, placeholder) {
 	input.setAttribute("autocomplete", "off");
 	input.setAttribute("placeholder", placeholder);
-	input.setAttribute("onkeypress", "return /[a-z_]/i.test(event.key)");
-	input.setAttribute("oninput", "this.value = this.value.toUpperCase()");
+	input.setAttribute("onkeypress", "return /[a-z_]/i.test(event.key);");
+	input.setAttribute("oninput", "this.value = this.value.substr(0, this.maxlength).toUpperCase();");
+	input.addEventListener("beforeinput", (e) => {
+		if (e.data && /^[a-z_]*$/i.test(e.data)) e.preventDefault();
+	});
 }
 
 function createAnswerSuggestions() {
