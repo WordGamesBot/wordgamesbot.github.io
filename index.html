@@ -1,114 +1,206 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="google-site-verification" content="X2IQhDCXYOzS3VVvN1dlf4-8spKGnTgug0gH_tOqfBM" />
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <!-- <link href='https://css.gg/bot.css' rel='stylesheet'> -->
-    <link href='https://unpkg.com/css.gg@2.0.0/icons/css/bot.css' rel='stylesheet'>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="google-site-verification" content="X2IQhDCXYOzS3VVvN1dlf4-8spKGnTgug0gH_tOqfBM" />
+	
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<!-- <link href="https://css.gg/bot.css" rel="stylesheet"> -->
+	<link href="https://unpkg.com/css.gg@2.0.0/icons/css/bot.css" rel="stylesheet">
 	<link rel = "stylesheet" type = "text/css" href = "wordl.css">
 
-    <script src='https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js'></script>
-    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+	<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> -->
+	<!-- <script src="https://code.jquery.com/jquery-1.10.2.js"></script> -->
+	<!-- <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script> -->
 
-    <script type = "text/javascript" src = "word_lists/allwords.js"></script>
-    <script type = "text/javascript" src = "word_lists/commonwords.js"></script>
-    <script type = "text/javascript" src = "word_lists/officialanswers.js"></script>
-    <script type = "text/javascript" src = "word_lists/officialguesses.js"></script>    
-    <script type = "text/javascript" src = "word_lists/rankings.js"></script>
-    
-    <script type = "text/javascript" src = "js/setup.js"></script>
-    <script type = "text/javascript" src = "js/class.js"></script>
-    <script type = "text/javascript" src = "js/main.js"></script>
-    <script type = "text/javascript" src = "js/bot.js"></script>
-    <script type = "text/javascript" src = "https://ybenhayun.github.io/general.js"></script>
-    <script type = "text/javascript" src = "../webpage/general.js"></script>
+	<script type = "text/javascript" src = "WordLists/AllWords.js"></script>
+	<script type = "text/javascript" src = "WordLists/CommonWords.js"></script>
+	<script type = "text/javascript" src = "WordLists/OldWordleAnswers.js"></script>
+	<script type = "text/javascript" src = "WordLists/NYT/Answers.js"></script>
+	<script type = "text/javascript" src = "WordLists/NYT/Answers_with_ED.js"></script>
+	<script type = "text/javascript" src = "WordLists/NYT/Guesses.js"></script>
+	<script type = "text/javascript" src = "WordLists/NYT/Words.js"></script>
+	<script type = "text/javascript" src = "WordLists/Rankings.js"></script>
+	<script type = "text/javascript" src = "WordLists/NYT/TreesShort.js"></script>
+	<!-- <script type = "text/javascript" src = "WordLists/NYT/TreesFull.js"></script> -->
+
+	<script type = "text/javascript" src = "js/general.js"></script>
+	<script type = "text/javascript" src = "js/setup.js"></script>
+	<script type = "text/javascript" src = "js/class.js"></script>
+	<script type = "text/javascript" src = "js/main.js"></script>
+	<script type = "text/javascript" src = "js/bot.js"></script>
 	<title>WordleBot</title>
 </head>
 <body>
-    <div id="container">
-        <div id="top-of-screen">
-            <h1 id = 'title'></h1>
-            <button class="header-button test" onclick="setupTest();"><i class='gg-bot'></i></button>
-            <button class = "header-button open settings" onclick="createSettingsPage();"><i class="fa fa-gear"></i></button>
-            <button class="header-button open info" onclick="createInfoPage();"><i class='fa fa-info-circle'></i></button>
-            <!-- <button id="wordlebot" onclick="testStartingWords();">Run bot</button> -->
-        </div>
+	<div id="container">
+		<div id="top-of-screen">
+			<h1 id = "title"></h1>
+			<button class="header-button test" onclick="setupTest();"><i class="gg-bot"></i></button>
+			<button class = "header-button open settings" onclick="createSettingsPage();"><i class="fa fa-gear"></i></button>
+			<button class="header-button open info" onclick="createInfoPage();"><i class="fa fa-info-circle"></i></button>
+			<!-- <button id="wordlebot" onclick="testStartingWords();">Run bot</button> -->
+		</div>
 
-        <div class="info screen"></div>
+		<div class="info screen"></div>
 
-        <div class="settings screen">
-            <button class="settings close"></button>
-            <h3 class = 'mini-header'>Choose Your Wordlength</h3>
-            <p class="description">We don't have to stick with 5 letters.</p>
-            <p> 
-                Show me the best 
-                <select name="word-length" id="word-length"></select>
-                letter words
-            </p>
-            <p>for a maximum of <select name="max-guesses" id="max-guesses"></select>
-                guesses.
-            </p>
+		<div class="settings screen">
+			<h3 class="mini-header">Choose Your Bot</h3>
+			<p class="description">Which game are we playing? I can play several.</p>
+				<p id="bot-selector">
+					Show me the best words for 
+					<select name="bot-type" id="bot-type">
+						<option value="Wordle" class = "Wordle">Wordle</option>
+						<option value="Antiwordle" class = "Antiwordle">Antiwordle</option>
+						<option value="Xordle" class = "Xordle">Xordle</option>
+						<option value="Fibble" class = "Fibble">Fibble</option>
+						<option value="Warmle" class = "Warmle">Warmle</option>
+						<option value="Hardle" class = "Hardle">Hardle</option>
+						<option value="Woodle" class = "Woodle">Woodle/Word500</option>
+						<option value="W-Peaks" class = "W-Peaks">Wordle Peaks</option>
+						<option value="Thirdle" class = "Thirdle">Thirdle</option>
+						<option value="Dordle" class = "Dordle">Dordle</option>
+						<option value="Quordle" class = "Quordle">Quordle</option>
+						<option value="Octordle" class = "Octordle">Octordle</option>
+						<option value="Spotle" class = "Spotle">Spotle</option>
+						<option value="Polygonle" class = "Polygonle">Polygonle</option>
+					</select>
+				</p>
 
-            <h3 class="mini-header">Choose Your Answers</h3>
-            <p class="description">Tell me what words you'd like to be considered as potential answers.</p>
-            <div>
-                <input type="checkbox" class="wordbank" id = 'restricted'>
-                <label for="restricted">Most Likely Answers</label>
-                <p class="description">The only words I'll consider as answers are those that are on the official answer list for Wordle, or some of its variants.</p>
+			<button class="settings close"></button>
+			<h3 class = "mini-header">Choose Your Wordlength</h3>
+			<p class="description">We don't have to stick with 5 letters.</p>
+			<p>
+				Show me the best 
+				<select name="word-length" id="word-length"></select>
+				letter words
+			</p>
+			<p>for a maximum of <select name="max-guesses" id="max-guesses"></select>
+				guesses.
+			</p>
 
-                <input type="checkbox" class="wordbank" id = 'complete'>
-                <label for="complete">All Possible Answers</label><br>
-                <p class="description">I'll consider all reasonable words as possible solutions.</p>
-            </div>
-            
-            <h3 class="mini-header">Choose Your Bot</h3>
-            <p class="description">Which game are we playing? I can play several.</p>
-                <p>
-                    Show me the best words for 
-                    <select name="bot-type" id="bot-type">
-                        <option value="Wordle" class = "Wordle">Wordle</option>
-                        <option value="Antiwordle" class = "Antiwordle">Antiwordle</option>
-                        <option value="Xordle" class = "Xordle">Xordle</option>
-                        <option value="Fibble" class = "Fibble">Fibble</option> 
-                        <option value="Warmle" class = "Warmle">Warmle</option> 
-                        <option value="Hardle" class = "Hardle">Hardle</option> 
-                        <option value="Woodle" class = "Woodle">Woodle/Word500</option> 
-                        <option value="W-Peaks" class = "W-Peaks">Wordle Peaks</option> 
-                        <option value="Thirdle" class = "Thirdle">Thirdle</option> 
-                        <option value="Dordle" class = "Dordle">Dordle</option> 
-                        <option value="Quordle" class = "Quordle">Quordle</option> 
-                        <option value="Octordle" class = "Octordle">Octordle</option> 
-                        <option value="Spotle" class = "Spotle">Spotle</option> 
-                    </select>
-                </p>
-                <p class="extra-settings"></p>
-        </div>
+			<h3 class="mini-header">Choose Your Answers</h3>
+			<p class="description">Tell me what words you'd like to be considered as potential answers.</p>
+			<div>
+				<input type="radio" class="answerlist" name="answerlist" id = "wordlebot_answers">
+				<label for="wordlebot_answers">Filtered NYT WordleBot Answers</label>
+				<p class="description">The only words I'll consider as answers are those that are on the answer list for official New York Times WordleBot (excluding regular past tense words).</p>
 
-        <div id="guesses">
-            <button id="refresh" onclick="resetPage();"><i class='fa fa-refresh'></i></button>
-            <input type="text" id = "word-entered">
-            <span id="hints" class = 'empty'>
-            </span>
-            <div id="next-previous-buttons"></div>
-        </div>
+				<input type="radio" class="answerlist" name="answerlist" id = "wordlebot_answers_with_ed">
+				<label for="wordlebot_answers_with_ed">All NYT WordleBot Answers</label>
+				<p class="description">The only words I'll consider as answers are those that are on the answer list for official New York Times WordleBot.</p>
 
-        <div id="suggestions">
-            <h2 class="possibilities total"></h2>
-            <h3 class="possibilities separated"></h3>
-            <h3 class="mini-title"></h3>
-        </div>
-        <p class = 'links kofi'>
-            Like the bot? <a href="https://ko-fi.com/ybenhayun"  target="_blank">Buy me a coffee!</a>
-        </p>
-        <p class="links github">
-            Do you code? Check out this repo on <a href="https://github.com/ybenhayun" target="_blank">Github</a>.
-        </p>
-    </div>
+				<input type="radio" class="answerlist" name="answerlist" id = "wordlebot_guesses">
+				<label for="wordlebot_guesses">NYT WordleBot Guesses</label>
+				<p class="description">The only words I'll consider as answers are those that are on the guess list for official New York Times WordleBot.</p>
+
+				<input type="radio" class="answerlist" name="answerlist" id = "wordle_guesses">
+				<label for="wordle_guesses">NYT Wordle Guesses</label><br>
+				<p class="description">I'll consider all guessable words from NYT Wordle dictionary as possible solutions.</p>
+
+				<input type="radio" class="answerlist" name="answerlist" id = "old_wordle_answers">
+				<label for="old_wordle_answers">Original Wordle Answers</label>
+				<p class="description">The only words I'll consider as answers are those that were on the answer list for original Wordle.</p>
+
+				<input type="radio" class="answerlist" name="answerlist" id = "restricted">
+				<label for="restricted">Most Likely Answers</label>
+				<p class="description">The only words I'll consider as answers are those that are on the old answer list for Wordle, or some of its variants.</p>
+
+				<input type="radio" class="answerlist" name="answerlist" id = "complete">
+				<label for="complete">All Possible Answers</label><br>
+				<p class="description">I'll consider all reasonable words as possible solutions.</p>
+
+				<input type="radio" class="answerlist" name="answerlist" id = "all_old">
+				<label for="all_old">Old Bot Guesses</label><br>
+				<p class="description">I'll consider all guessable words from original bot dictionary as possible solutions.</p>
+			</div>
+
+			<h3 class="mini-header">Choose Your Guesses</h3>
+			<p class="description">Tell me what words you'd like to be considered as possible guesses.</p>
+			<div>
+				<input type="checkbox" class="use_all_acceptable_checkbox" name="use_all_acceptable_checkbox" id = "use_all_acceptable_checkbox" checked = "checked">
+				<label for="use_all_acceptable_checkbox">Show all acceptable words</label><br>
+				<p class="description">I'll show all acceptable words in answers list, even if I can't suggest them as guesses.</p>
+
+				<input type="radio" class="guesslist" name="guesslist" id = "guesslist_wordlebot_answers">
+				<label for="guesslist_wordlebot_answers">Filtered NYT WordleBot Answers</label>
+				<p class="description">The only words I'll consider as possible guesses are those that are on the answer list for official New York Times WordleBot (excluding regular past tense words).</p>
+
+				<input type="radio" class="guesslist" name="guesslist" id = "guesslist_wordlebot_answers_with_ed">
+				<label for="guesslist_wordlebot_answers_with_ed">All NYT WordleBot Answers</label>
+				<p class="description">The only words I'll consider as possible guesses are those that are on the answer list for official New York Times WordleBot.</p>
+
+				<input type="radio" class="guesslist" name="guesslist" id = "guesslist_wordlebot_guesses">
+				<label for="guesslist_wordlebot_guesses">NYT WordleBot Guesses</label>
+				<p class="description">The only words I'll consider as possible guesses are those that are on the guess list for official New York Times WordleBot.</p>
+
+				<input type="radio" class="guesslist" name="guesslist" id = "guesslist_wordle_guesses">
+				<label for="guesslist_wordle_guesses">NYT Wordle Guesses</label><br>
+				<p class="description">I'll consider all guessable words from NYT Wordle dictionary as possible guesses.</p>
+
+				<input type="radio" class="guesslist" name="guesslist" id = "guesslist_old_wordle_answers">
+				<label for="guesslist_old_wordle_answers">Original Wordle Answers</label>
+				<p class="description">The only words I'll consider as possible guesses are those that were on the answer list for original Wordle.</p>
+
+				<input type="radio" class="guesslist" name="guesslist" id = "guesslist_restricted">
+				<label for="guesslist_restricted">Most Likely Answers</label>
+				<p class="description">The only words I'll consider as possible guesses are those that are on the old answer list for Wordle, or some of its variants.</p>
+
+				<input type="radio" class="guesslist" name="guesslist" id = "guesslist_complete">
+				<label for="guesslist_complete">All Possible Answers</label><br>
+				<p class="description">I'll consider all reasonable words as possible guesses.</p>
+
+				<input type="radio" class="guesslist" name="guesslist" id = "guesslist_all_old">
+				<label for="guesslist_all_old">Old Bot Guesses</label><br>
+				<p class="description">I'll consider all guessable words from original bot dictionary as possible guesses.</p>
+
+			</div>
+		</div>
+
+		<div id="known-answer-div">
+			<button id="reset-answer" onclick="resetAnswers();"><i class="fa fa-refresh"></i></button>
+			<input type="text" id="word-known-answer">
+		</div>
+
+		<div id="guesses">
+			<button id="refresh" onclick="resetPage();update();"><i class="fa fa-refresh"></i></button>
+			<input type="text" id = "word-entered">
+			<span id="hints" class = "empty">
+			</span>
+			<div id="next-previous-buttons"></div>
+		</div>
+
+		<div id="suggestions">
+			<h2 class="possibilities total"></h2>
+			<h3 class="possibilities separated"></h3>
+			<div id="mode-selector">
+				<div class="hard label" id="mode-selector-label">Show me the best guesses for </div>
+				<!-- <label class="hard switch" id="undefined"> -->
+					<!-- <input class="" id="mode" type="checkbox"> -->
+					<!-- <span class="slider round" id="undefined"></span> -->
+				<!-- </label> -->
+				<div class="switch-toggle" id="mode-switcher">
+					<input id="easy" class="mode-switcher" name="mode-switcher" type="radio" checked="checked"/>
+					<label for="easy">Easy</label>
+
+					<!-- <input id="hard" class="mode-switcher" name="mode-switcher" type="radio"/> -->
+					<!-- <label for="hard">Hard</label> -->
+
+					<input id="ultra" class="mode-switcher" name="mode-switcher" type="radio"/>
+					<label for="ultra">Ultra</label>
+				</div>
+				<div class="hard label" id="mode-selector-label-2"> Mode</div>
+			</div>
+			<h3 class="mini-title"></h3>
+		</div>
+		<p class="links github">
+			Do you code? Check out this repo on <a href="https://github.com/WordGamesBot/wordgamesbot.github.io" target="_blank">Github</a>.
+		</p>
+		<p class = "links github">
+			Credit to the original creator on <a href="https://github.com/ybenhayun" target="_blank">Github</a>.
+		</p>
+	</div>
 
 </body>
 </html>
