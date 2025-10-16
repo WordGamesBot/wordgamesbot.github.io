@@ -88,7 +88,7 @@ ready(function() {
 	document.getElementById("word-entered").addEventListener("input", function(e) {
 		let val = e.target.value;
 		if ((val.length == word_length) && guessable.includes(val)) {
-			// e.target.blur();
+			e.target.blur();
 			makeTables(val);
 		}
 	});
@@ -97,7 +97,7 @@ ready(function() {
 		if (e.keyCode == 13/* && e.shiftKey*/) {
 			let val = e.target.value;
 			if (val.length == word_length) {
-				// e.target.blur();
+				e.target.blur();
 				makeTables(val);
 			}
 		}
