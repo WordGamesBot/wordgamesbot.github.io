@@ -57,7 +57,7 @@ For 'Filtered NYT WordleBot Answers' answer list I manually added solve paths fo
 For its suggestions bot shows average number of guesses required to solve every answer, that is still possible at a given situation. To calculate it, bot explores every word by picking top 'adjusted score' word for its next guesses, until it reaches every answer. But if there are a lot of possible guesses left, it might not be optimal. For example, on ultra-hard mode after ADIEU with only green E (colored as BBBGB), bot will not find any winning path on its own, but since ADIEU is a common first guess, its solve path is built-in, so it will show, that METEL is winning. (This bots thinks that METEL loses on POWER, BOXER and POKER (all of which are in BBBGB bucket), but after you color METEL as BBBGB and calculate its next best guess, it will find two words, that can win on all answers). On easy mode its usually fine, although it will not find any winning follow up after all gray MEZZO with 5 guesses left, while SLATE can solve every possible answer on easy mode in 5 guesses.
 
 # Site
-You can play around with the bot yourself [here](link to new bot)
+You can play around with the bot yourself [here](https://wordgamesbot.github.io/)
 
 # Credits
 [ybenhayun](https://github.com/ybenhayun) - [Original bot](https://ybenhayun.github.io/wordlebot/) author
