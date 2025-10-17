@@ -69,7 +69,7 @@ ready(function() {
 			let answers = value.split(",");
 			bot.setAnswers(answers);
 			let bot_count = bot.getCount();
-			if (bot_count == 1 && bot.type == XORDLE) bot_count = 2;
+			if (bot.type == XORDLE) bot_count *= 2;
 			if (answers.length < bot_count) {
 				e.target.style.backgroundColor = answers.some(a => (a.length == word_length))? "blue": "transparent";
 				e.target.maxLength = (answers.length+1)*(word_length+1)-1;
