@@ -46,7 +46,7 @@ ready(function() {
 		if (answers.every(a => ((a.length == word_length) && (common.includes(a))))) {
 			bot.setAnswers(answers);
 			let bot_count = bot.getCount();
-			if (bot_count == 1 && bot.type == XORDLE) bot_count = 2;
+			if (bot.type == XORDLE) bot_count *= 2;
 			if (answers.length == bot_count) {
 				e.target.blur();
 				e.target.style.backgroundColor = (bot.type == FIBBLE)? "blue": "green";
@@ -71,7 +71,7 @@ ready(function() {
 			let bot_count = bot.getCount();
 			if (bot_count == 1 && bot.type == XORDLE) bot_count = 2;
 			if (answers.length < bot_count) {
-				e.target.style.backgroundColor = "blue";
+				e.target.style.backgroundColor = answers.some(a => (a.length == word_length))? "blue": "transparent";
 				e.target.maxLength = (answers.length+1)*(word_length+1)-1;
 				e.target.value = value+",";
 			} else {
@@ -79,7 +79,7 @@ ready(function() {
 					e.target.blur();
 					e.target.style.backgroundColor = (bot.type == FIBBLE)? "blue": "green";
 				} else {
-					e.target.style.backgroundColor = "blue";
+					e.target.style.backgroundColor = answers.some(a => (a.length == word_length))? "blue": "transparent";
 				}
 			}
 		}
@@ -571,10 +571,7 @@ function setInputAttributes(input, placeholder) {
 	input.setAttribute("autocomplete", "off");
 	input.setAttribute("placeholder", placeholder);
 	input.setAttribute("onkeypress", "return /[a-z_]/i.test(event.key);");
-	input.setAttribute("oninput", "this.value = this.value.substr(0, this.maxlength).toUpperCase();");
-	input.addEventListener("beforeinput", (e) => {
-		if (e.data && /^[a-z_]*$/i.test(e.data)) e.preventDefault();
-	});
+	input.setAttribute("oninput", "this.value = this.value.toUpperCase();");
 }
 
 function createAnswerSuggestions() {
