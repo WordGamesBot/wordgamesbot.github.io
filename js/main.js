@@ -241,7 +241,7 @@ function setWordbank() {
 	}
 	if (USE_TREES && !LOCAL_VERSION && !FULL_TREES) {
 		for (const i of (new Set([difficulty, ...(bot.hasHardMode? ["easy", "hard", "ultra"]: ["easy", "ultra"])]))) {
-			const settings = getSettingsHash(i, WORDLE, 6);
+			const settings = getSettingsHash(i, WORDLE);
 			if (!best_trees[settings]) {
 				getJSON("./../WordLists/NYT/Trees/" + settings + ".json").then(json => best_trees[settings] = json);
 			}

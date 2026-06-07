@@ -21,6 +21,7 @@ ready(function() {
 
 	document.getElementById("max-guesses").addEventListener("input", function(e) {
 		localStorage.setItem("guesses" + bot.type, e.target.value);
+		setWordbank();
 		update();
 		// resetPage();
 		// createPage();
