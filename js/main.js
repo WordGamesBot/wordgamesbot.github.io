@@ -252,7 +252,7 @@ function setWordbank() {
 			if (STARTER == "a") {
 				getJSON("./../WordLists/NYT/Trees/Starters/list.json").then(json => json.forEach(start => getJSON("./../WordLists/NYT/Trees/Starters/" + start + ".json").then(json => Object.keys(json).forEach(settings => Object.assign(best_trees[settings] ??= {}, json[settings])))));
 			} else {
-				getJSON("./../WordLists/NYT/Trees/Starters/" + STARTER + ".json").then(json => Object.keys(json).forEach(settings => Object.assign(best_trees[settings] ??= {}, json[settings])));
+				getJSON("./../WordLists/NYT/Trees/Starters/" + STARTER.toUpperCase() + ".json").then(json => Object.keys(json).forEach(settings => Object.assign(best_trees[settings] ??= {}, json[settings])));
 			}
 		} else {
 			if (RANGSK) {
