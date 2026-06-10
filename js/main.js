@@ -36,8 +36,10 @@ const MAX_TIME = Number(URLParams.get("time")) || 1000;
 const LIST_LENGTH = Number(URLParams.get("list")) || 10;
 // const SIZE_FACTOR = Number(URLParams.get("size")) || 5;
 const TEST_BOT_SIZE = Number(URLParams.get("bot_test")) || 500;
+const PREVCALC = URLParams.has("prevcalc") || URLParams.has("rangsk") || URLParams.has("starter");
+const STARTER = URLParams.get("starter") || false;
+const RANGSK = URLParams.has("rangsk");
 const DEBUG = URLParams.has("debug");
-const PREVCALC = URLParams.has("prevcalc");
 const USE_TREES = (!URLParams.has("no_tree")) || (!(FULL_TREES || SHORT_TREES));
 // const HASH_TEST = URLParams.has("hash_test");
 
@@ -239,11 +241,29 @@ function setWordbank() {
 		clearPolygonle();
 		clearGrids();
 	}
-	if (USE_TREES && !LOCAL_VERSION && !FULL_TREES) {
-		for (const i of (new Set([difficulty, ...(bot.hasHardMode? ["easy", "hard", "ultra"]: ["easy", "ultra"])]))) {
-			const settings = getSettingsHash(i, WORDLE);
-			if (!best_trees[settings]) {
-				getJSON("./../WordLists/NYT/Trees/" + settings + ".json").then(json => best_trees[settings] = json);
+	if (USE_TREES && !LOCAL_VERSION) {
+		if (!FULL_TREES) {
+			for (const diff of (new Set([difficulty, ...(bot.hasHardMode? ["easy", "hard", "ultra"]: ["easy", "ultra"])]))) {
+				const settings = getSettingsHash(diff, WORDLE);
+				getJSON("./../WordLists/NYT/Trees/" + settings + ".json").then(json => Object.assign(best_trees[settings] ??= {}, json));
+			}
+		}
+		if (STARTER) {
+			if (STARTER == "a") {
+				getJSON("./../WordLists/NYT/Trees/Starters/_list.json").then(json => json.forEach(start => getJSON("./../WordLists/NYT/Trees/Starters/" + start + ".json").then(json => Object.keys(json).forEach(settings => Object.assign(best_trees[settings] ??= {}, json[settings])))));
+			} else {
+				getJSON("./../WordLists/NYT/Trees/Starters/" + STARTER + ".json").then(json => Object.keys(json).forEach(settings => Object.assign(best_trees[settings] ??= {}, json[settings])));
+			}
+		} else {
+			if (RANGSK) {
+				let date = new Date();
+				const dist = 1;
+				date.setDate(date.getDate() - dist);
+				for (let i = -dist; i <= dist; i++) {
+					getJSON("./../WordLists/NYT/Trees/Starters/Rangsk/" + date.toJSON().slice(0,10) + ".json").then(start => getJSON("./../WordLists/NYT/Trees/Starters/" + start + ".json").then(json => Object.keys(json).forEach(settings => Object.assign(best_trees[settings] ??= {}, json[settings]))));
+					date.setDate(date.getDate() + 1);
+				}
+				getJSON("./../WordLists/NYT/Trees/Starters/Rangsk/_default.json").then(json => json.forEach(start => getJSON("./../WordLists/NYT/Trees/Starters/" + start + ".json").then(json => Object.keys(json).forEach(settings => Object.assign(best_trees[settings] ??= {}, json[settings])))));
 			}
 		}
 	}
@@ -304,9 +324,13 @@ function update() {
 		}
 		if (guess_stats && (guess_stats.length > 0)) {
 			if (!notFullyTested(guess_stats[0])) {
-				addendum = "Your score for the guess " + guess_stats[0].word + " was " + getDataFor(guess_stats[0], old_list.unique) + ".<br>";
-				if (guess_stats[0].wrong_answers && (guess_stats[0].wrong_answers.length > 0)) {
-					addendum += "Might lose on: " + guess_stats[0].wrong_answers.join(", ") +  ".<br>";
+				if (Array.isArray(guess_stats[0].average)) {
+					addendum = "Your guess " + guess_stats[0].word + " might've lost in these cases:<br>" + guess_stats[0].average.join(", ") + ".<br>";
+				} else {
+					addendum = "Your score for the guess " + guess_stats[0].word + " was " + getDataFor(guess_stats[0], old_list.unique) + ".<br>";
+					if (guess_stats[0].wrong_answers && (guess_stats[0].wrong_answers.length > 0)) {
+						addendum += "Might've lost on: " + guess_stats[0].wrong_answers.join(", ") +  ".<br>";
+					}
 				}
 			}
 		}
@@ -1236,6 +1260,22 @@ function getBestTree(guess_count = guessesMadeSoFar(), word) {
 	return {word: best_guess, average: (browse_tree[best_guess].s)};
 }
 
+function getFullBestTree(guess_count = guessesMadeSoFar()) {
+	let browse_tree;
+	const settings = getSettingsHash();
+	if (FULL_TREES) browse_tree = best_trees_full?.[settings];
+	else browse_tree = best_trees?.[settings]?? (SHORT_TREES? best_trees_short?.[settings]: false);
+	if (!browse_tree) return null;
+	for (let i = 0; i < guess_count; i++) {
+		if (!(browse_tree = browse_tree?.[getWord(i)]?.[bot.getRowColor(i)])) return null;
+	}
+	if (browse_tree["f"] != 1) return null;
+	
+	let best_guesses = Object.keys(browse_tree).filter(a => guessable.includes(a)).sort((a, b) => (browse_tree[a].s > browse_tree[b].s)? 1: (browse_tree[a].s == browse_tree[b].s)? 0: -1);
+	if (!best_guesses?.length) return null;
+	return best_guesses.map(a => Object.assign({}, {word: a, average: browse_tree[a].s}));
+}
+
 function getBestGuesses(lists, guess_count = guessesMadeSoFar(), initial_guesses) {
 	const main_calculations = (initial_guesses === undefined);
 	let best_guesses;
@@ -1244,9 +1284,11 @@ function getBestGuesses(lists, guess_count = guessesMadeSoFar(), initial_guesses
 	if (main_calculations) {
 		guess_hash = makeGuessHash(guess_count);
 		best_guesses = guessesArePrecomputed(guess_count, guess_hash);
-
 		if (best_guesses) {
 			return sortByWrongThenAverage(best_guesses, lists.all);
+		} else {
+			best_guesses = getFullBestTree(guess_count);
+			if (best_guesses) return best_guesses;
 		}
 
 		if (guess_count == 0) {
