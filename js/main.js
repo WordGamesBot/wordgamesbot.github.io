@@ -250,7 +250,7 @@ function setWordbank() {
 		}
 		if (STARTER) {
 			if (STARTER == "a") {
-				getJSON("./../WordLists/NYT/Trees/Starters/_list.json").then(json => json.forEach(start => getJSON("./../WordLists/NYT/Trees/Starters/" + start + ".json").then(json => Object.keys(json).forEach(settings => Object.assign(best_trees[settings] ??= {}, json[settings])))));
+				getJSON("./../WordLists/NYT/Trees/Starters/list.json").then(json => json.forEach(start => getJSON("./../WordLists/NYT/Trees/Starters/" + start + ".json").then(json => Object.keys(json).forEach(settings => Object.assign(best_trees[settings] ??= {}, json[settings])))));
 			} else {
 				getJSON("./../WordLists/NYT/Trees/Starters/" + STARTER + ".json").then(json => Object.keys(json).forEach(settings => Object.assign(best_trees[settings] ??= {}, json[settings])));
 			}
@@ -263,7 +263,7 @@ function setWordbank() {
 					getJSON("./../WordLists/NYT/Trees/Starters/Rangsk/" + date.toJSON().slice(0,10) + ".json").then(start => getJSON("./../WordLists/NYT/Trees/Starters/" + start + ".json").then(json => Object.keys(json).forEach(settings => Object.assign(best_trees[settings] ??= {}, json[settings]))));
 					date.setDate(date.getDate() + 1);
 				}
-				getJSON("./../WordLists/NYT/Trees/Starters/Rangsk/_default.json").then(json => json.forEach(start => getJSON("./../WordLists/NYT/Trees/Starters/" + start + ".json").then(json => Object.keys(json).forEach(settings => Object.assign(best_trees[settings] ??= {}, json[settings])))));
+				getJSON("./../WordLists/NYT/Trees/Starters/Rangsk/default.json").then(json => json.forEach(start => getJSON("./../WordLists/NYT/Trees/Starters/" + start + ".json").then(json => Object.keys(json).forEach(settings => Object.assign(best_trees[settings] ??= {}, json[settings])))));
 			}
 		}
 	}
