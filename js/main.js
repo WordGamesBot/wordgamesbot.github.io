@@ -1254,7 +1254,7 @@ function getBestTree(guess_count = guessesMadeSoFar(), word) {
 	if (word) {
 		best_guess = Object.keys(browse_tree).filter(a => a == word);
 	} else {
-		best_guess = Object.keys(browse_tree).filter(a => guessable.includes(a)).sort((a, b) => (browse_tree[a].s > browse_tree[b].s)? 1: (browse_tree[a].s == browse_tree[b].s)? 0: -1)[0];
+		best_guess = Object.keys(browse_tree).filter(a => guessable.includes(a) && !Array.isArray(browse_tree[a].s)).sort((a, b) => (browse_tree[a].s > browse_tree[b].s)? 1: (browse_tree[a].s == browse_tree[b].s)? 0: -1)[0];
 	}
 	if (!best_guess?.length) return null;
 	return {word: best_guess, average: (browse_tree[best_guess].s)};
