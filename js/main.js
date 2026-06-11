@@ -14,6 +14,13 @@ let best_trees = {};
 const SMALLEST_WORD = 3, LARGEST_WORD = 11;
 // class constants to assign colors to tiles
 const CORRECT = "G", INCORRECT = "B", WRONG_SPOT = "Y", EMPTY = "X";
+// emojis to represent the color constants above
+const COLOR_ICONS = {
+	[CORRECT]: "🟩",
+	[INCORRECT]: "⬛",
+	[WRONG_SPOT]: "🟨",
+	[EMPTY]: "❔",
+};
 const INFINITY = 9999999;
 // list size constants
 
@@ -325,7 +332,10 @@ function update() {
 		if (guess_stats && (guess_stats.length > 0)) {
 			if (!notFullyTested(guess_stats[0])) {
 				if (Array.isArray(guess_stats[0].average)) {
-					addendum = "Your guess " + guess_stats[0].word + " might've lost in these cases:<br>" + guess_stats[0].average.join(", ") + ".<br>";
+					addendum = "Your guess " + guess_stats[0].word + " might've lost in these cases:<br>" +
+						guess_stats[0].average.map((colors) =>
+							colors.replace(/./g, color => COLOR_ICONS[color])
+						).join(", ") + ".<br>";
 				} else {
 					addendum = "Your score for the guess " + guess_stats[0].word + " was " + getDataFor(guess_stats[0], old_list.unique) + ".<br>";
 					if (guess_stats[0].wrong_answers && (guess_stats[0].wrong_answers.length > 0)) {
