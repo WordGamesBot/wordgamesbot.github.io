@@ -1281,9 +1281,9 @@ function getFullBestTree(guess_count = guessesMadeSoFar()) {
 	}
 	if (browse_tree["f"] != 1) return null;
 	
-	let best_guesses = Object.keys(browse_tree).filter(a => guessable.includes(a)).sort((a, b) => (browse_tree[a].s > browse_tree[b].s)? 1: (browse_tree[a].s == browse_tree[b].s)? 0: -1);
+	let best_guesses = Object.keys(browse_tree).filter(a => guessable.includes(a));
 	if (!best_guesses?.length) return null;
-	return best_guesses.map(a => Object.assign({}, {word: a, average: browse_tree[a].s}));
+	return sortByWrongThenAverage(best_guesses.map(a => Object.assign({}, {word: a, average: browse_tree[a].s})));
 }
 
 function getBestGuesses(lists, guess_count = guessesMadeSoFar(), initial_guesses) {
