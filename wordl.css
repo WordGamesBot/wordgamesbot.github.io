@@ -63,6 +63,10 @@ body {
 	/* margin-top: -1rem; */
 }
 
+.nobr {
+  white-space: nowrap;
+}
+
 .grid {
 	position: relative;
 	display: flex;

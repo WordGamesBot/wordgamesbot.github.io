@@ -332,10 +332,10 @@ function update() {
 		if (guess_stats && (guess_stats.length > 0)) {
 			if (!notFullyTested(guess_stats[0])) {
 				if (Array.isArray(guess_stats[0].average)) {
-					addendum = "Your guess " + guess_stats[0].word + " might've lost in these cases:<br>" +
+					addendum = "Your guess " + guess_stats[0].word + " might've lost in these cases:<br><span class=\"nobr\">" +
 						guess_stats[0].average.map((colors) =>
 							colors.replace(/./g, color => COLOR_ICONS[color])
-						).join(", ") + ".<br>";
+						).join(",</span> <span class=\"nobr\">") + ".</span><br>";
 				} else {
 					addendum = "Your score for the guess " + guess_stats[0].word + " was " + getDataFor(guess_stats[0], old_list.unique) + ".<br>";
 					if (guess_stats[0].wrong_answers && (guess_stats[0].wrong_answers.length > 0)) {
